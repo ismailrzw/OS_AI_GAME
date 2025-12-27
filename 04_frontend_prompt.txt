@@ -1,0 +1,39 @@
+You are now acting as a senior frontend engineer.
+
+Objective:
+Build a React + Vite frontend for the Adaptive OS Scheduler simulation.
+
+Tech Stack:
+- React (Vite)
+- HTML
+- CSS (no frameworks)
+- JavaScript only
+
+UI Requirements:
+1. Mode Selector
+   - Efficiency
+   - Fairness
+   - Real-Time
+
+2. Process Queue View
+   - Display PID, Burst, Arrival, Priority
+   - Allow drag-and-drop ordering (Human scheduling)
+
+3. Real-Time Mode
+   - Visible countdown timer (10 seconds)
+   - Auto-submit when timer expires
+
+4. Visualization
+   - Gantt Chart (Human vs AI)
+   - Color-coded warnings (RED = violation, GREEN = optimal)
+
+Project Structure:
+frontend/
+- src/components/
+- src/styles/
+- src/services/
+
+Constraints:
+- No backend code here
+- Assume backend API exists
+- Focus on clean component separation

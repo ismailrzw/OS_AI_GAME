@@ -1,0 +1,44 @@
+You are now acting as a Machine Learning engineer.
+
+Objective:
+Train an AI model that learns which scheduling algorithm is optimal
+based on system mode and process queue characteristics.
+
+Model:
+- Decision Tree Classifier (scikit-learn)
+
+Training Strategy:
+- Generate ~30,000 synthetic scenarios
+- Each scenario:
+  - 4 to 8 processes
+  - Random arrivals, bursts, priorities
+  - Random mode (Efficiency, Fairness, Real-Time)
+
+Scoring Rules (CRITICAL):
+1. Efficiency Mode:
+   - Score = Avg Waiting Time + (Context Switches × 0.5)
+
+2. Fairness Mode:
+   - Score = Max Waiting Time
+   - If Max Wait > 15 → +100 penalty
+
+3. Real-Time Mode:
+   - Score = Avg Waiting Time
+   - If Low priority finishes before High → +200 penalty per violation
+
+Label:
+- Algorithm with LOWEST score wins
+
+Files to create:
+data_factory/
+- generator.py
+- scorer.py
+- train.py
+- dataset.csv
+
+Output:
+- Trained model saved as models/scheduler_brain.pkl
+
+Constraints:
+- This training logic MUST force algorithm diversity
+- Explain feature selection clearly

@@ -1,0 +1,41 @@
+You are a senior Operating Systems architect and system designer.
+
+Objective:
+Design an Adaptive OS Scheduler Simulation where a Human competes against an AI scheduler.
+
+Core Concept:
+The system operates in THREE MODES (not difficulty levels):
+
+1. Efficiency Mode (Batch Processing)
+   - Goal: Minimize Average Waiting Time
+   - Penalize context switching heavily
+
+2. Fairness Mode (Time Sharing)
+   - Goal: Prevent starvation
+   - Penalize maximum waiting time
+
+3. Real-Time Mode (Mission Critical)
+   - Goal: Immediate execution of high-priority tasks
+   - Penalize priority violations massively
+   - Human must schedule within a strict countdown timer
+
+AI Role:
+- Acts as a "Next-Gen Scheduler"
+- Chooses between FCFS, SJF, Round Robin, Priority
+- Uses a Decision Tree classifier
+- Input: Statistical features of process queue + mode
+- Output: Best scheduling algorithm
+
+Human Role:
+- Manually schedules processes via UI
+- Subject to time pressure in Real-Time Mode
+
+Deliverables:
+1. High-level system architecture
+2. Clear separation of Backend, AI Training, and Frontend
+3. Explanation suitable for OS course presentation
+
+Constraints:
+- Do NOT generate code yet
+- Lock design decisions clearly
+- Avoid shortcuts or simplifications

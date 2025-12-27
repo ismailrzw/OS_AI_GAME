@@ -1,0 +1,44 @@
+# Gitignore for Adaptive OS Scheduler project
+
+# Python ignores
+*.pyc
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+*.tmp
+*.log
+
+# Machine Learning ignores
+# Ignore large intermediate or output files that can be regenerated,
+# but keep the final model and dataset.
+# dataset.csv and models/scheduler_brain.pkl are NOT ignored.
+*.pkl.tmp
+*.h5
+*.tf
+*.onnx
+
+# Frontend ignores (from frontend/.gitignore)
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+/frontend/dist # Ignore only the frontend's dist folder
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json # Keep extensions config if applicable
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

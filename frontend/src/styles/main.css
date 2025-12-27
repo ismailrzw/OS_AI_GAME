@@ -1,0 +1,38 @@
+/* main.css */
+:root {
+  --background-color: #1a1a1a;
+  --card-background-color: #242424;
+  --border-color: #444;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --primary-color: #646cff;
+  --primary-color-hover: #535bf2;
+  --gantt-bar-color: #747bff;
+  --gantt-idle-color: #333;
+  --warning-red: #c73e3e;
+  --success-green: #3ec762;
+  --font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+h1, h2, h3 {
+  font-weight: 500;
+}

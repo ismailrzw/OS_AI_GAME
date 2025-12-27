@@ -1,0 +1,281 @@
+/* components.css */
+
+/* App Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.controls-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: var(--card-background-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.results-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ModeSelector */
+.mode-selector {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mode-selector button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s;
+  background-color: var(--card-background-color);
+}
+
+.mode-selector button:hover {
+  border-color: var(--primary-color);
+}
+
+.mode-selector button.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color-hover);
+}
+
+/* ProcessQueue */
+.process-queue-container h3 {
+  margin-top: 0;
+}
+
+.process-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #1e1e1e;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.process-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border-color);
+  cursor: grab;
+  transition: background-color 0.2s;
+  user-select: none;
+}
+
+.process-item:last-child {
+  border-bottom: none;
+}
+
+.process-item.dragging {
+  opacity: 0.5;
+  background-color: var(--primary-color);
+}
+
+.process-item span {
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.process-submit-button {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 10px 0;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: var(--primary-color);
+}
+
+.process-submit-button:disabled {
+  background-color: var(--border-color);
+  cursor: not-allowed;
+}
+
+/* Timer */
+.timer-container {
+  padding: 1rem;
+  background-color: var(--warning-red);
+  color: white;
+  border-radius: 8px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* GanttChart */
+.gantt-chart-container {
+  width: 100%;
+  background-color: var(--card-background-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+}
+
+.gantt-chart {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  background-color: var(--gantt-idle-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.gantt-bar {
+  position: absolute;
+  height: 100%;
+  background-color: var(--gantt-bar-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  color: white;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 1px solid var(--border-color);
+}
+
+/* ResultsDashboard */
+.results-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  text-align: left;
+}
+.result-card {
+  padding: 1rem;
+  background-color: var(--card-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+.result-card h3 {
+  margin-top: 0;
+}
+.result-metric {
+  font-family: monospace;
+}
+.result-metric.good {
+  color: var(--success-green);
+}
+.result-metric.bad {
+  color: var(--warning-red);
+}
+
+.placeholder {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+}
+
+/* NamePopup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: var(--card-background-color);
+  padding: 2rem 3rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.popup-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: #333;
+  color: var(--text-color);
+}
+
+.popup-button {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 10px 0;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: var(--primary-color);
+}
+
+/* GameStats */
+.game-stats-container {
+    background-color: var(--card-background-color);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.game-stats-container h3 {
+    margin-top: 0;
+    text-align: center;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1rem;
+    font-family: monospace;
+}
+
+/* Leaderboard */
+.leaderboard-container {
+    background-color: var(--card-background-color);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.leaderboard-container h3 {
+    margin-top: 0;
+}
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+.leaderboard-table th, .leaderboard-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+.leaderboard-table th {
+    font-weight: 600;
+}
+.leaderboard-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
