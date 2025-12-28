@@ -1,0 +1,25 @@
+You are now acting as a systems integrator.
+
+Objective:
+Connect backend, AI, and React frontend into a full system.
+
+Flow:
+1. App starts (React frontend)
+2. User selects mode
+3. Frontend requests patient queue from backend
+4. Human schedules patients via UI
+5. Backend simulates human schedule and computes metrics
+6. AI predicts best algorithm for current state
+7. Backend simulates AI schedule
+8. Frontend visualizes results side-by-side (Gantt Chart, metrics)
+9. Scores and feedback shown to user
+
+Deliverables:
+- API contract for backend/frontend
+- Clear step-by-step runtime explanation
+- Integration notes on React components and Python backend
+- Use AI model for runtime inference
+
+Constraints:
+- No new feature creation
+- Connect everything cleanly and maintain modularity

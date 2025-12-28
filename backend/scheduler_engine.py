@@ -55,6 +55,7 @@ class Scheduler:
         completed_processes: List[Process] = []
         metrics = SimulationMetrics()
         current_process: Optional[Process] = None
+        last_process_pid = -1
 
         while process_queue or ready_queue or current_process:
             # Add newly arrived processes to the ready queue
@@ -68,6 +69,10 @@ class Scheduler:
                 ready_queue.sort(key=lambda p: p.burst_time)
 
             if not current_process and ready_queue:
+                # If there was a previous process, this is a context switch.
+                if last_process_pid != -1:
+                    metrics.increment_context_switches()
+
                 current_process = ready_queue.pop(0)
                 if current_process.start_time == -1:
                     current_process.start_time = time
@@ -80,11 +85,20 @@ class Scheduler:
                 
                 metrics.add_gantt_entry(current_process.pid, execution_start_time, time)
                 completed_processes.append(current_process)
+                last_process_pid = current_process.pid
                 current_process = None
 
             elif not ready_queue and not current_process:
                 # If no process is running and ready queue is empty, jump time forward.
                 time = process_queue[0].arrival_time if process_queue else time + 1
+            else:
+                # This case is for when the loop continues without picking a new process,
+                # effectively being idle time.
+                time += 1
+        
+        # Final switch count is one less than the number of blocks if they are all different.
+        # This is a simpler way to count for non-preemptive.
+        metrics.context_switches = max(0, len(metrics.gantt_chart_log) -1)
 
         metrics.finalize(completed_processes, time)
         return metrics, completed_processes
@@ -97,42 +111,53 @@ class Scheduler:
         completed_processes: List[Process] = []
         metrics = SimulationMetrics()
         current_process: Optional[Process] = None
+        last_process_pid = -1
 
         while process_queue or ready_queue or current_process:
             # Add newly arrived processes to the ready queue
             while process_queue and process_queue[0].arrival_time <= time:
-                ready_queue.append(process_queue.popleft())
+                new_process = process_queue.popleft()
+                ready_queue.append(new_process)
 
             # --- Critical Decision: Select next process ---
             # The sorting key determines if we're doing SRTF or Priority scheduling.
             sort_key = lambda p: p.priority if priority_based else p.remaining_time
             ready_queue.sort(key=sort_key)
 
-            # Check for preemption
+            # --- Preemption Logic ---
+            # If a new higher-priority process is in the ready queue, preempt the current one.
             if current_process and ready_queue and sort_key(ready_queue[0]) < (sort_key(current_process) if priority_based else current_process.remaining_time):
                 metrics.increment_context_switches()
+                metrics.increment_preemptions() # This is an involuntary switch.
                 ready_queue.append(current_process)
                 current_process = None
 
+            # If CPU is idle, get the next process from the ready queue.
             if not current_process and ready_queue:
+                # This is a context switch if the CPU was not idle before.
+                if last_process_pid != -1:
+                     metrics.increment_context_switches()
+                
                 current_process = ready_queue.pop(0)
                 if current_process.start_time == -1:
                     current_process.start_time = time
-
+            
             # Execute one time unit
             if current_process:
                 execution_start_time = time
                 time += 1
                 current_process.remaining_time -= 1
                 metrics.add_gantt_entry(current_process.pid, execution_start_time, time)
+                last_process_pid = current_process.pid
 
                 if current_process.remaining_time == 0:
                     current_process.finish_time = time
                     completed_processes.append(current_process)
                     current_process = None
+                    last_process_pid = -1 # Mark CPU as idle
             else:
                 # No process is ready to run, advance time.
-                time = process_queue[0].arrival_time if process_queue else time
+                time = process_queue[0].arrival_time if process_queue else time + 1
 
         metrics.finalize(completed_processes, time)
         return metrics, completed_processes
@@ -140,13 +165,10 @@ class Scheduler:
     def _run_rr(self) -> (SimulationMetrics, List[Process]):
         """Handles Round Robin scheduling."""
         time = 0
-        # Use a deque for efficient append and popleft operations, perfect for RR.
         ready_queue = collections.deque()
         process_queue = collections.deque(self.processes)
         completed_processes: List[Process] = []
         metrics = SimulationMetrics()
-        current_process: Optional[Process] = None
-        
         last_process_pid = -1
 
         while process_queue or ready_queue:
@@ -155,17 +177,14 @@ class Scheduler:
                 ready_queue.append(process_queue.popleft())
 
             if not ready_queue:
-                # If no processes are ready, jump time to the next arrival.
                 if process_queue:
                     time = process_queue[0].arrival_time
                 else:
-                    break # No more processes left at all
+                    break
                 continue
             
             current_process = ready_queue.popleft()
 
-            # --- Context Switch Logic ---
-            # A context switch occurs if the CPU is handed to a *different* process.
             if last_process_pid != -1 and last_process_pid != current_process.pid:
                 metrics.increment_context_switches()
 
@@ -174,28 +193,27 @@ class Scheduler:
 
             execution_start_time = time
             
-            # Execute for the time quantum or until the process finishes, whichever is smaller.
             exec_time = min(current_process.remaining_time, self.time_quantum)
             time += exec_time
             current_process.remaining_time -= exec_time
             
             metrics.add_gantt_entry(current_process.pid, execution_start_time, time)
             
-            # --- Critical Decision: Process Re-queuing ---
-            # Any process that arrives while this one was running must be added to the queue
-            # *before* we re-add the current process. This ensures fairness.
+            # Any process that arrives while this one was running must be enqueued.
             while process_queue and process_queue[0].arrival_time <= time:
                 ready_queue.append(process_queue.popleft())
 
             if current_process.remaining_time > 0:
-                # Process is not finished, add it to the back of the queue.
                 ready_queue.append(current_process)
                 last_process_pid = current_process.pid
+                # This is a preemption caused by the timer.
+                if ready_queue: # Only a preemption if there's another process to switch to.
+                    metrics.increment_preemptions()
+
             else:
-                # Process is finished.
                 current_process.finish_time = time
                 completed_processes.append(current_process)
-                last_process_pid = -1 # No process was running before the next one
+                last_process_pid = -1
 
         metrics.finalize(completed_processes, time)
         return metrics, completed_processes

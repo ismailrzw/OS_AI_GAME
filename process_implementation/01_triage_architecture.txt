@@ -1,0 +1,43 @@
+You are a senior system designer.
+
+Objective:
+Design a Triage Doctor Scheduling Simulator where Humans compete against AI under realistic hospital constraints.
+
+Core Concept:
+- Simulate a hospital triage system with patients, doctors, queues, and metrics.
+- Patients deteriorate over time.
+- Resources are limited; interruptions have costs.
+- Human and AI compete to schedule optimally.
+- AI uses a Decision Tree to pick the best scheduling algorithm per state snapshot.
+
+State:
+S(t) = {patients, doctors, queue, context, metrics}
+- Evolves every tick
+- Depends on previous actions
+- Never static
+
+AI Input Features:
+- level_1_count
+- level_2_count
+- avg_wait_time
+- max_wait_time
+- doctor_utilization
+- deterioration_velocity
+- interrupt_cost
+- surge_active
+
+AI Output:
+- Best scheduling policy at the moment
+
+Frontend Pages:
+- Mode Selection
+- Triage Board
+- Policy Selector
+- Timeline View
+- Result Analysis
+
+Constraints:
+- Do NOT generate code yet
+- Focus on clean system architecture
+- Separate backend, AI training, and frontend
+- Ensure React + Vite will be used for frontend

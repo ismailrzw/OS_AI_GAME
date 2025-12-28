@@ -1,0 +1,32 @@
+You are now acting as a backend engineer.
+
+Objective:
+Implement the hospital triage simulation engine in Python.
+
+Requirements:
+1. Patient model must include:
+   - id, triage_level (1–5), arrival_time, estimated_service_time
+   - wait_time, deterioration_rate, risk_score, resources_needed
+
+2. Scheduler Engine must support:
+   - FCFS, SJF, SRTF, Round Robin, Priority, Hybrid
+
+3. Simulation Tick Logic:
+   - New patients arrive
+   - Existing patients deteriorate
+   - Triage levels may change
+   - Scheduler runs
+   - Doctors treat/preempt
+   - Metrics update
+
+4. Files to create:
+backend/
+- process_model.py
+- scheduler_engine.py
+- metrics.py
+- ai_interface.py
+
+Constraints:
+- No frontend logic here
+- Backend must provide clean API endpoints for React frontend later
+- Comment critical decisions

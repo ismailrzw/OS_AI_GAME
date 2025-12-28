@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 
-const ProcessQueue = ({ processes, setProcesses, onSubmit, disabled }) => {
+const ProcessQueue = ({ mode, processes, setProcesses, onSubmit, disabled }) => {
   const [draggingItem, setDraggingItem] = useState(null);
   const dragItemNode = useRef(null);
 
@@ -43,10 +43,20 @@ const ProcessQueue = ({ processes, setProcesses, onSubmit, disabled }) => {
             onDragEnter={(e) => handleDragEnter(e, index)}
             className="process-item"
           >
-            <span>PID: {p.pid}</span>
-            <span>Arrival: {p.arrival_time}</span>
-            <span>Burst: {p.burst_time}</span>
-            <span>Prio: {p.priority}</span>
+            {mode === 'Real-Time' ? (
+              <>
+                <span>Case: {p.case_type}</span>
+                <span>Severity: {p.severity}</span>
+                <span>Duration: {p.burst_time}</span>
+                <span>Arrived: {p.arrival_time}</span>
+              </>
+            ) : (
+              <>
+                <span>PID: {p.pid}</span>
+                <span>Arrival: {p.arrival_time}</span>
+                <span>Burst: {p.burst_time}</span>
+              </>
+            )}
           </li>
         ))}
       </ul>

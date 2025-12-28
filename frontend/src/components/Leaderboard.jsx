@@ -4,7 +4,7 @@ const Leaderboard = ({ leaderboard }) => {
     
   const getDifficulty = (mode) => {
     switch(mode) {
-      case 'Efficiency': return 'Easy (Efficiency)';
+      case 'Efficiency': return 'Hard (Efficiency)';
       case 'Fairness': return 'Medium (Fairness)';
       case 'Real-Time': return 'Hard (Real-Time)';
       default: return 'N/A';

@@ -1,0 +1,28 @@
+You are now acting as a machine learning engineer.
+
+Objective:
+Train a Decision Tree AI that selects the best scheduling algorithm for the hospital triage system.
+
+Training Data:
+- Generate thousands of synthetic hospital scenarios
+- Randomized arrival rates, deterioration speeds, staffing, surges
+- Evaluate all algorithms (FCFS, SJF, SRTF, RR, Priority, Hybrid)
+- Label the algorithm with the lowest total cost
+
+Cost Function:
+total_cost = death_penalty + max_wait_penalty + interrupt_penalty + fairness_penalty
+
+Files to create:
+data_factory/
+- generator.py
+- scorer.py
+- train.py
+- dataset.csv
+
+Output:
+- Trained model saved as models/scheduler_brain.pkl
+
+Constraints:
+- Training logic must force algorithm diversity
+- Explain feature selection clearly
+- Keep backend API in mind for runtime inference

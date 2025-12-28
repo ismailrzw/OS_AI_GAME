@@ -29,6 +29,10 @@ class Process:
     burst_time: int
     priority: int = 0  # Default priority if not specified
 
+    # Themed fields for Real-Time mode
+    case_type: str | None = None
+    severity: str | None = None
+
     # Internal state fields, initialized in __post_init__
     remaining_time: int = field(init=False)
     start_time: int = field(init=False, default=-1)

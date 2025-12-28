@@ -1,0 +1,42 @@
+You are now acting as a senior frontend architect.
+
+Objective:
+Build a React + Vite frontend for the Triage Doctor Scheduling Simulator.
+
+Tech Stack:
+- React (Vite)
+- HTML
+- CSS (no frameworks)
+- JavaScript only
+
+UI Requirements:
+1. Mode Selector (Efficiency, Fairness, Real-Time)
+2. Triage Board
+   - Display patient cards with triage colors, arrival, and wait time
+   - Drag-and-drop ordering for human scheduling
+3. Policy Selector
+   - Choose scheduling algorithm manually
+4. Timeline View
+   - Visualize Gantt Chart for Human vs AI
+   - Color-coded warnings (RED = violation, GREEN = optimal)
+5. Timer Component
+   - Real-Time Mode: countdown 10 seconds, auto-submit on expiry
+
+Project Structure:
+frontend/
+- index.html
+- package.json
+- vite.config.js
+- src/main.jsx
+- src/App.jsx
+- src/styles/main.css
+- src/components/ModeSelector.jsx
+- src/components/ProcessQueue.jsx
+- src/components/GanttChart.jsx
+- src/components/Timer.jsx
+- src/services/api.js
+
+Constraints:
+- Do not implement backend logic here
+- Assume backend APIs exist
+- Focus on clean, modular React components

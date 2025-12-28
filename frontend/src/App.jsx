@@ -26,6 +26,8 @@ function App() {
   const [showNamePopup, setShowNamePopup] = useState(false);
   const [playerStats, setPlayerStats] = useState(initialStats);
   const [leaderboard, setLeaderboard] = useState([]);
+  const [explanation, setExplanation] = useState(''); // New state for explanation
+  const [difficulty, setDifficulty] = useState('Medium'); // New state for difficulty
 
   // Load player data and leaderboard on initial mount
   useEffect(() => {
@@ -49,6 +51,18 @@ function App() {
   const handleStartGame = useCallback(async (selectedMode) => {
     setGameState('running');
     setSimulationResults(null);
+    setExplanation(''); // Clear previous explanation
+    
+    // Determine difficulty based on mode
+    let currentDifficulty;
+    switch(selectedMode) {
+        case 'Efficiency': currentDifficulty = 'Hard'; break;
+        case 'Fairness': currentDifficulty = 'Medium'; break;
+        case 'Real-Time': currentDifficulty = 'Hard'; break;
+        default: currentDifficulty = 'Medium';
+    }
+    setDifficulty(currentDifficulty);
+
     const { processes: newProcesses } = await api.startNewGame(selectedMode);
     setProcesses(newProcesses);
     setGameState('idle');
@@ -79,6 +93,7 @@ function App() {
     setGameState('running');
     const results = await api.submitSchedule(mode, processes);
     setSimulationResults(results);
+    setExplanation(results.explanation); // Set explanation from API response
     setGameState('finished');
 
     // Update player stats
@@ -105,6 +120,8 @@ function App() {
         simulationResults.ai.gantt_chart_log.at(-1)?.end || 0
       )
     : 0;
+  
+  const controlsDisabled = gameState === 'running' || showNamePopup || !playerName;
 
   return (
     <div className="app-container">
@@ -116,7 +133,7 @@ function App() {
       </header>
 
       <main className="main-content">
-        <div className="controls-column" style={{ filter: showNamePopup ? 'blur(4px)' : 'none' }}>
+        <div className="controls-column">
           {playerName && <GameStats playerName={playerName} stats={playerStats} />}
           {mode === 'Real-Time' && gameState === 'idle' && (
             <Timer 
@@ -126,18 +143,19 @@ function App() {
             />
           )}
           <ProcessQueue
+            mode={mode}
             processes={processes}
             setProcesses={setProcesses}
             onSubmit={handleSubmitSchedule}
-            disabled={gameState === 'running' || !playerName}
+            disabled={controlsDisabled}
           />
-           <button onClick={() => handleStartGame(mode)} disabled={!playerName} className="process-submit-button" style={{backgroundColor: '#3f51b5'}}>
+           <button onClick={() => handleStartGame(mode)} disabled={controlsDisabled} className="process-submit-button" style={{backgroundColor: '#3f51b5'}}>
              New Process Set
            </button>
         </div>
-        <div className="results-column" style={{ filter: showNamePopup ? 'blur(4px)' : 'none' }}>
+        <div className="results-column">
           <Leaderboard leaderboard={leaderboard} />
-          <ResultsDashboard results={simulationResults} />
+          <ResultsDashboard results={simulationResults} explanation={explanation} difficulty={difficulty} />
           <GanttChart title="Your Gantt Chart" log={simulationResults?.human.gantt_chart_log} maxTime={maxTime} />
           <GanttChart title="AI Gantt Chart" log={simulationResults?.ai.gantt_chart_log} maxTime={maxTime} />
         </div>
