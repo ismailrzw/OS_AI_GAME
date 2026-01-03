@@ -49,11 +49,11 @@ def main():
             scheduler = Scheduler(process_copy)
             metrics, completed = scheduler.run(algorithm=algo_name, time_quantum=4)
             
-            # Get the cost function weights for the current mode
+            # Get the cost function weights (now only Real-Time)
             weights = COST_WEIGHTS[mode]
 
             # Calculate the final cost for this specific algorithm run
-            total_cost = calculate_total_cost(mode, weights, metrics, completed)
+            total_cost = calculate_total_cost(weights, metrics, completed)
 
             # Skip invalid runs
             if total_cost == float('inf'):

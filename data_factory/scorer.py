@@ -32,14 +32,12 @@ def find_priority_violations(completed_processes: List[Process]) -> int:
     return violations // 2
 
 def calculate_total_cost(
-    mode: str, 
     weights: Dict[str, float], 
     metrics: SimulationMetrics,
     completed_processes: List[Process]
 ) -> float:
     """
     Calculates a total cost for a simulation run based on a weighted sum of metrics.
-    This is the single source of truth for an algorithm's performance in a scenario.
     """
     if not metrics.completed_processes_count > 0:
         return float('inf')
@@ -53,9 +51,8 @@ def calculate_total_cost(
         weights['preemption_cost'] * metrics.preemption_count
     )
 
-    # Add a massive, non-linear penalty for priority violations in Real-Time mode
-    if mode == 'Real-Time':
-        violations = find_priority_violations(completed_processes)
-        total_cost += violations * 1000 # Increased penalty
+    # Add a massive, non-linear penalty for priority violations
+    violations = find_priority_violations(completed_processes)
+    total_cost += violations * 1000 
 
     return total_cost

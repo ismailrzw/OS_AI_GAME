@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MODES = ['Efficiency', 'Fairness', 'Real-Time'];
+const MODES = ['Real-Time'];
 
 const ModeSelector = ({ selectedMode, onModeChange }) => {
   return (

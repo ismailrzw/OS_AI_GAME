@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 // Import API service and components
 import * as api from './services/api';
-import ModeSelector from './components/ModeSelector';
 import ProcessQueue from './components/ProcessQueue';
 import GanttChart from './components/GanttChart';
 import Timer from './components/Timer';
@@ -15,7 +14,7 @@ const initialStats = { wins: 0, losses: 0, ties: 0, total: 0 };
 
 function App() {
   // Core simulation state
-  const [mode, setMode] = useState('Efficiency');
+  const [mode, setMode] = useState('Real-Time');
   const [processes, setProcesses] = useState([]);
   const [simulationResults, setSimulationResults] = useState(null);
   const [gameState, setGameState] = useState('idle'); // idle, running, finished
@@ -27,7 +26,7 @@ function App() {
   const [playerStats, setPlayerStats] = useState(initialStats);
   const [leaderboard, setLeaderboard] = useState([]);
   const [explanation, setExplanation] = useState(''); // New state for explanation
-  const [difficulty, setDifficulty] = useState('Medium'); // New state for difficulty
+  const [difficulty, setDifficulty] = useState('Hard'); // Real-Time is Hard
 
   // Load player data and leaderboard on initial mount
   useEffect(() => {
@@ -53,15 +52,7 @@ function App() {
     setSimulationResults(null);
     setExplanation(''); // Clear previous explanation
     
-    // Determine difficulty based on mode
-    let currentDifficulty;
-    switch(selectedMode) {
-        case 'Efficiency': currentDifficulty = 'Hard'; break;
-        case 'Fairness': currentDifficulty = 'Medium'; break;
-        case 'Real-Time': currentDifficulty = 'Hard'; break;
-        default: currentDifficulty = 'Medium';
-    }
-    setDifficulty(currentDifficulty);
+    setDifficulty('Hard');
 
     const { processes: newProcesses } = await api.startNewGame(selectedMode);
     setProcesses(newProcesses);
@@ -129,7 +120,6 @@ function App() {
 
       <header>
         <h1>Adaptive OS Scheduler</h1>
-        <ModeSelector selectedMode={mode} onModeChange={handleModeChange} />
       </header>
 
       <main className="main-content">

@@ -29,7 +29,12 @@ class SimulationMetrics:
     def add_gantt_entry(self, pid: int, start_time: int, end_time: int):
         """Records a process execution slice for the Gantt chart."""
         if start_time < end_time:
-            self.gantt_chart_log.append({'pid': pid, 'start': start_time, 'end': end_time})
+            # Check if the last entry was the same process and ended exactly when this one starts
+            if self.gantt_chart_log and self.gantt_chart_log[-1]['pid'] == pid and self.gantt_chart_log[-1]['end'] == start_time:
+                # Merge by extending the end time of the previous entry
+                self.gantt_chart_log[-1]['end'] = end_time
+            else:
+                self.gantt_chart_log.append({'pid': pid, 'start': start_time, 'end': end_time})
 
     def increment_context_switches(self):
         """Increments the total context switch counter."""

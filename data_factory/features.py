@@ -30,20 +30,6 @@ ALGORITHM_ENCODING = {
 # + preemption_cost * preemption_count
 
 COST_WEIGHTS = {
-    'Efficiency': {
-        'efficiency_weight': 1.5,      # Primary driver: minimize average wait time.
-        'fairness_weight': 0.05,       # Very low penalty on variance.
-        'starvation_weight': 0.2,        # A small non-zero weight to prevent extreme starvation.
-        'context_switch_penalty': 0.5, # Low penalty, as switching is acceptable if it helps.
-        'preemption_cost': 0.5,        # Low penalty for preemption.
-    },
-    'Fairness': {
-        'efficiency_weight': 0.1,        # Efficiency is not the main goal.
-        'fairness_weight': 1.5,        # High penalty on variance to ensure fair wait times.
-        'starvation_weight': 3.0,        # Highest penalty on max wait to prevent starvation.
-        'context_switch_penalty': 2.0, # Moderately high to make frequent switching (like small RR) costly.
-        'preemption_cost': 3.0,        # Higher cost to make SJF risky.
-    },
     'Real-Time': {
         'efficiency_weight': 0.5,      # Inefficiency is bad, but not the primary concern.
         'fairness_weight': 0.2,        # Low concern for overall fairness.
